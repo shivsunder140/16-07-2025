@@ -11,20 +11,6 @@ import {
   ChevronRight
 } from 'lucide-react';
 
-import { useState } from 'react';
-import { 
-  Calendar, 
-  Clock, 
-  Plus, 
-  Edit, 
-  Trash2, 
-  BarChart3, 
-  Send,
-  ChevronLeft,
-  ChevronRight,
-  GripVertical
-} from 'lucide-react';
-
 interface KanbanPost {
   id: number;
   content: string;
