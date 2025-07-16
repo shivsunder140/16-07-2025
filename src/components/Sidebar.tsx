@@ -6,6 +6,7 @@ import {
   Edit3, 
   Home, 
   Library, 
+  Layers,
   Settings, 
   User, 
   Crown
@@ -19,6 +20,7 @@ const Sidebar: React.FC = () => {
   const navItems = [
     { path: '/', icon: Home, label: 'Dashboard' },
     { path: '/create', icon: Edit3, label: 'Create Content' },
+    { path: '/content', icon: Layers, label: 'Content Center' },
     { path: '/scheduler', icon: Calendar, label: 'Post Scheduler' },
     { path: '/analytics', icon: BarChart3, label: 'Analytics' },
     { path: '/library', icon: Library, label: 'Content Library' },

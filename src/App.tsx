@@ -7,6 +7,7 @@ import Layout from './components/Layout';
 import Dashboard from './pages/Dashboard';
 import ContentCreator from './pages/ContentCreator';
 import PostScheduler from './pages/PostScheduler';
+import ContentCenter from './pages/ContentCenter';
 import Analytics from './pages/Analytics';
 import ContentLibrary from './pages/ContentLibrary';
 import Profile from './pages/Profile';
@@ -25,6 +26,7 @@ function App() {
               <Route path="/" element={<Layout />}>
                 <Route index element={<Dashboard />} />
                 <Route path="create" element={<ContentCreator />} />
+                <Route path="content" element={<ContentCenter />} />
                 <Route path="scheduler" element={<PostScheduler />} />
                 <Route path="analytics" element={<Analytics />} />
                 <Route path="library" element={<ContentLibrary />} />
