@@ -1,32 +1,87 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
-import { 
-  BarChart3, 
-  Calendar, 
-  Edit3, 
-  Home, 
-  Library, 
-  Layers,
-  Settings, 
-  User, 
-  Crown
-} from 'lucide-react';
+import { Crown } from 'lucide-react';
 import InfinityLogo from './InfinityLogo';
 import { useAuth } from '../contexts/AuthContext';
+import { mainNavigation } from '../config/navigation';
 
 const Sidebar: React.FC = () => {
   const { user } = useAuth();
 
-  const navItems = [
-    { path: '/', icon: Home, label: 'Dashboard' },
-    { path: '/create', icon: Edit3, label: 'Create Content' },
-    { path: '/content', icon: Layers, label: 'Content Center' },
-    { path: '/scheduler', icon: Calendar, label: 'Post Scheduler' },
-    { path: '/analytics', icon: BarChart3, label: 'Analytics' },
-    { path: '/library', icon: Library, label: 'Content Library' },
-    { path: '/profile', icon: User, label: 'Profile' },
-    { path: '/settings', icon: Settings, label: 'Settings' }
-  ];
+  const hasAccess = (item: any) => {
+    if (!item.requiresAuth) return true;
+    if (!user) return false;
+    if (!item.roles) return true;
+    return item.roles.includes(user.role);
+  };
+
+  const renderNavItem = (item: any, depth = 0) => {
+    if (!hasAccess(item)) return null;
+
+    const paddingLeft = depth > 0 ? `${depth * 1.5 + 1}rem` : '1rem';
+
+    if (item.children && item.children.length > 0) {
+      return (
+        <div key={item.id}>
+          <NavLink
+            to={item.path}
+            className={({ isActive }) =>
+              `flex items-center space-x-3 px-4 py-3 rounded-xl transition-all duration-300 ${
+                isActive
+                  ? 'bg-gradient-to-r from-cyan-500/20 to-blue-500/20 text-cyan-400 border border-cyan-500/30'
+                  : 'text-gray-300 hover:bg-gray-800/50 hover:text-white'
+              }`
+            }
+            style={{ paddingLeft }}
+          >
+            <item.icon className="w-5 h-5" />
+            <span className="font-medium">{item.label}</span>
+            {item.badge && (
+              <span className="text-xs bg-cyan-500 text-white px-2 py-1 rounded-full">
+                {item.badge}
+              </span>
+            )}
+            {item.isNew && (
+              <span className="text-xs bg-gradient-to-r from-violet-500 to-purple-600 text-white px-2 py-1 rounded-full">
+                New
+              </span>
+            )}
+          </NavLink>
+          <div className="ml-4 mt-1 space-y-1">
+            {item.children.map((child: any) => renderNavItem(child, depth + 1))}
+          </div>
+        </div>
+      );
+    }
+
+    return (
+      <NavLink
+        key={item.id}
+        to={item.path}
+        className={({ isActive }) =>
+          `flex items-center space-x-3 px-4 py-3 rounded-xl transition-all duration-300 ${
+            isActive
+              ? 'bg-gradient-to-r from-cyan-500/20 to-blue-500/20 text-cyan-400 border border-cyan-500/30'
+              : 'text-gray-300 hover:bg-gray-800/50 hover:text-white'
+          }`
+        }
+        style={{ paddingLeft }}
+      >
+        <item.icon className="w-5 h-5" />
+        <span className="font-medium">{item.label}</span>
+        {item.badge && (
+          <span className="text-xs bg-cyan-500 text-white px-2 py-1 rounded-full">
+            {item.badge}
+          </span>
+        )}
+        {item.isNew && (
+          <span className="text-xs bg-gradient-to-r from-violet-500 to-purple-600 text-white px-2 py-1 rounded-full">
+            New
+          </span>
+        )}
+      </NavLink>
+    );
+  };
 
   return (
     <div className="w-64 glass-card m-4 mr-0 rounded-r-none border-r-0 shadow-2xl">
@@ -41,22 +96,7 @@ const Sidebar: React.FC = () => {
 
       <nav className="mt-8">
         <div className="px-4 space-y-2">
-          {navItems.map((item) => (
-            <NavLink
-              key={item.path}
-              to={item.path}
-              className={({ isActive }) =>
-                `flex items-center space-x-3 px-4 py-3 rounded-xl transition-all duration-300 ${
-                  isActive
-                    ? 'bg-gradient-to-r from-cyan-500/20 to-blue-500/20 text-cyan-400 border border-cyan-500/30'
-                    : 'text-gray-300 hover:bg-gray-800/50 hover:text-white'
-                }`
-              }
-            >
-              <item.icon className="w-5 h-5" />
-              <span className="font-medium">{item.label}</span>
-            </NavLink>
-          ))}
+          {mainNavigation.map((item) => renderNavItem(item))}
         </div>
       </nav>
 
