@@ -8,7 +8,7 @@ const Signup = lazy(() => import('../pages/auth/Signup'));
 const Onboarding = lazy(() => import('../pages/auth/Onboarding'));
 
 // Content Studio
-const ContentHub = lazy(() => import('../pages/content/ContentHub'));
+const ContentCenter = lazy(() => import('../pages/ContentCenter'));
 const ContentCreator = lazy(() => import('../pages/ContentCreator'));
 const ContentLibrary = lazy(() => import('../pages/ContentLibrary'));
 const CarouselCreator = lazy(() => import('../pages/content/CarouselCreator'));
@@ -160,7 +160,7 @@ export const routes: RouteConfig[] = [
   // Content Studio
   {
     path: '/content',
-    component: ContentHub,
+    component: ContentCenter,
     requiresAuth: true,
     meta: {
       title: 'Content Hub - Manage Your LinkedIn Content',
